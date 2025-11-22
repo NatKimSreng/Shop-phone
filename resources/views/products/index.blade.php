@@ -85,22 +85,23 @@
                         <tbody>
                             @if (isset($products))
                                 @forelse ($products as $product)
-                                    <tr data-id="{{ $product->id }}" class="align-middle">
+                                    <tr data-id="{{ $product->id }}" class="align-middle product-row" style="transition: all 0.3s ease;">
                                         <td class="px-4 py-3">
                                             <div class="d-flex align-items-center">
                                                 @if ($product->image)
                                                     <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                                                        class="rounded"
-                                                        style="width: 45px; height: 45px; object-fit: cover;">
+                                                        class="rounded shadow-sm"
+                                                        style="width: 50px; height: 50px; object-fit: cover; border: 2px solid #e9ecef;">
                                                 @else
-                                                    <div class="rounded bg-light d-flex align-items-center justify-content-center"
-                                                        style="width: 45px; height: 45px;">
+                                                    <div class="rounded bg-light d-flex align-items-center justify-content-center shadow-sm"
+                                                        style="width: 50px; height: 50px; border: 2px solid #e9ecef;">
                                                         <i class="fas fa-image text-muted"></i>
                                                     </div>
                                                 @endif
                                                 <div class="ml-3">
                                                     <a href="{{ route('products.show', $product) }}"
-                                                        class="text-dark font-weight-500 text-decoration-none">
+                                                        class="text-dark font-weight-500 text-decoration-none product-name-link"
+                                                        style="transition: color 0.2s ease;">
                                                         {{ $product->name }}
                                                     </a>
                                                 </div>
@@ -109,28 +110,29 @@
                                         <td class="px-4 py-3 text-muted small" style="max-width: 250px;">
                                             {{ Str::limit($product->description, 60) }}
                                         </td>
-                                        <td class="px-4 py-3 text-right font-weight-500">
+                                        <td class="px-4 py-3 text-right font-weight-600" style="color: #28a745; font-size: 1rem;">
                                             ${{ number_format($product->price, 2) }}
                                         </td>
                                         <td class="px-4 py-3 text-center">
                                             <button
                                                 class="btn btn-sm toggle-stock border-0 px-3 py-1 {{ $product->stock ? 'bg-success text-white' : 'bg-secondary text-white' }}"
-                                                style="border-radius: 20px; font-size: 0.75rem;">
+                                                style="border-radius: 20px; font-size: 0.75rem; font-weight: 500; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                                 {{ $product->stock ? 'In Stock' : 'Out of Stock' }}
                                             </button>
                                         </td>
                                         <td class="px-4 py-3 text-center">
                                             <div class="btn-group btn-group-sm" role="group">
                                                 <a href="{{ route('products.edit', $product) }}"
-                                                    class="btn btn-outline-secondary border" title="Edit">
+                                                    class="btn btn-outline-secondary border action-btn" title="Edit"
+                                                    style="transition: all 0.2s ease;">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <form method="POST" action="{{ route('products.destroy', $product) }}"
                                                     class="d-inline" onsubmit="return confirm('Delete this product?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn btn-outline-danger border" type="submit"
-                                                        title="Delete">
+                                                    <button class="btn btn-outline-danger border action-btn" type="submit"
+                                                        title="Delete" style="transition: all 0.2s ease;">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
@@ -171,6 +173,37 @@
             </div>
         @endif
     </div>
+
+    <style>
+        .product-row:hover {
+            background-color: #f8f9fa;
+            transform: translateX(2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .product-name-link:hover {
+            color: #007bff !important;
+            text-decoration: underline !important;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .btn-dark:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .card {
+            border: none !important;
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+        }
+        .form-control-sm:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15);
+        }
+    </style>
 @endsection
 
 @push('scripts')

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\AuthorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 // });
 
 // Route group controller
-// 
+//
 
 // Route::controller(ProductController::class)->group(function () {
 //     Route::get('/products', 'index')->name('products.index');
@@ -27,7 +28,7 @@ use Illuminate\Http\Request;
 //     Route::put('/products/{product}', 'update')->name('products.update');
 //     Route::delete('/products/{product}', 'destroy')->name('products.destroy');
 //     Route::get('/products/{product}', 'show')->name('products.show');
-//     // Route::resource('products', ProductController::class)->except(['index']); short hand 
+//     // Route::resource('products', ProductController::class)->except(['index']); short hand
 // });
 
 // Explicit routes for products (no resource or group—simple and clear)
@@ -40,17 +41,24 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->name('p
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
 
-Route::controller(CategoryController::class)->group(function () {
-    Route::get('/categories', 'index')->name('categories.index');
-    Route::get('/categories/create', 'create')->name('categories.create');
-    Route::post('/categories', 'store')->name('categories.store');
+Route::controller(AuthorController::class)->group(function () {
 
-    // Specific routes before dynamic {category}
-    Route::get('/categories/{category}/edit', 'edit')->name('categories.edit');
-    Route::put('/categories/{category}', 'update')->name('categories.update');
-    Route::delete('/categories/{category}', 'destroy')->name('categories.destroy');
-    Route::get('/categories/{category}', 'show')->name('categories.show');
+    // All authors
+    Route::get('/authors', 'index')->name('authors.index');
+
+    // Create new author
+    Route::get('/authors/create', 'create')->name('authors.create');
+    Route::post('/authors', 'store')->name('authors.store');
+
+    // Must be before dynamic {author}
+    Route::get('/authors/{author}/edit', 'edit')->name('authors.edit');
+    Route::put('/authors/{author}', 'update')->name('authors.update');
+    Route::delete('/authors/{author}', 'destroy')->name('authors.destroy');
+
+    // View single author
+    Route::get('/authors/{author}', 'show')->name('authors.show');
 });
+
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -84,4 +92,3 @@ Route::controller(AuthController::class)->group(function () {
 // Route::get('/', function () {
 //     return redirect()->route('auth.login');
 // });
-

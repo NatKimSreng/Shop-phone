@@ -18,7 +18,6 @@
             <thead>
                 <tr>
                     <th>Category Name</th>
-                    <th>Description</th>
                     <th class="text-center w-auto">Actions</th>
                 </tr>
             </thead>
@@ -26,7 +25,6 @@
                 @forelse ($categories as $category)
                     <tr data-id="{{ $category->id }}">
                         <td><a href="{{ route('categories.show', $category) }}">{{ $category->category_name }}</a></td>
-                        <td>{{ Str::limit($category->category_description ?? '', 50) }}</td>
                         <td class="text-center w-auto">
                             <a href="{{ route('categories.edit', $category) }}" class="btn btn-primary btn-sm">Edit</a>
                             <form method="POST" action="{{ route('categories.destroy', $category) }}" class="d-inline"

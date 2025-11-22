@@ -20,12 +20,6 @@
 
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="public/img/bbu_logo.jpg" class="brand-link">
-        <img src="assets/img/bbu_logo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-2"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light pl-2">{{ config('app.name') }}</span>
-    </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -78,6 +72,12 @@
                             <a href="/categories" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/authors" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Author</p>
                             </a>
                         </li>
                         {{-- <li class="nav-item">
@@ -180,7 +180,7 @@
                         <button type="submit" class="nav-link btn btn-link text-white"
                             onclick="return confirm('Are you sure you want to log out?')"
                             style="background:none; border:none; color:white; width:100%; text-align:left; margin-left: 8px;">
-                            <i class="fas fa-sign-out-alt"></i> 
+                            <i class="fas fa-sign-out-alt"></i>
                             <p style="margin-left: 5px;">Log Out</p>
                         </button>
                     </form>
