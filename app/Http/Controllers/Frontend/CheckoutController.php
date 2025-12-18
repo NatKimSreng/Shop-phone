@@ -315,7 +315,7 @@ class CheckoutController extends Controller
     // If already paid, return immediately with redirect info
     if ($order->status === 'paid') {
         return response()->json([
-            'paid' => true, 
+            'paid' => true,
             'responseCode' => 0,
             'redirect' => route('order.success', $order->id)
         ]);
@@ -350,7 +350,11 @@ class CheckoutController extends Controller
             ]);
         }
 
-        return response()->json(['paid' => true, 'simulated' => true]);
+        return response()->json([
+            'paid' => true,
+            'simulated' => true,
+            'redirect' => route('order.success', $order->id)
+        ]);
     }
 
     $token = config('services.bakong.token');
@@ -453,12 +457,19 @@ class CheckoutController extends Controller
 
             // Return response with responseCode for frontend checking (like the example)
             $responseCode = $data['responseCode'] ?? $resp['responseCode'] ?? null;
-            return response()->json([
+            $response = [
                 'paid' => $paid,
                 'status' => $status,
                 'responseCode' => $responseCode,
                 'data' => $data
-            ]);
+            ];
+            
+            // Add redirect URL if paid
+            if ($paid) {
+                $response['redirect'] = route('order.success', $order->id);
+            }
+            
+            return response()->json($response);
 
     } catch (\Throwable $e) {
             Log::error('KHQR polling failed', [
