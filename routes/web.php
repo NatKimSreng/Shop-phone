@@ -43,7 +43,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/login', [AuthController::class, 'login'])
             ->name('login'); // → route: admin.login
 
-        Route::post('/login', [AuthController::class, 'authenticate']);
+        Route::post('/login', [AuthController::class, 'authenticate'])
+            ->name('login.post'); // → route: admin.login.post
     });
 
     // ==================== Authenticated Admin Routes ====================

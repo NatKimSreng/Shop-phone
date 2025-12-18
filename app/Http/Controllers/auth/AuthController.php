@@ -23,12 +23,28 @@ class AuthController extends Controller
      */
     public function authenticate(Request $req)
     {
-        $credentials = $req->only('email', 'password');
+        $validated = $req->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $validated;
         $remember = $req->has('remember') ? true : false;
+        
         if (auth()->attempt($credentials, $remember)) {
             // regenerate session
             $req->session()->regenerate();
-            return redirect('/')->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+            
+            $user = Auth::user();
+            
+            // Redirect admin users to admin dashboard
+            if ($user->isAdmin()) {
+                return redirect()->route('admin.dashboard')
+                    ->with('success', 'Welcome back, ' . $user->name . '!');
+            }
+            
+            // Redirect regular users to home
+            return redirect('/')->with('success', 'Welcome back, ' . $user->name . '!');
         }
 
         return back()->withErrors([
