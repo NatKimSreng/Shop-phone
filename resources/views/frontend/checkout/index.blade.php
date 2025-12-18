@@ -470,6 +470,10 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
 
                     if (res.ok) {
                         const result = await res.json();
+                        
+                        // Debug logging
+                        console.log('Payment status check result:', result);
+                        console.log('Order ID:', data.orderId);
 
                         // Check if paid (like the example checks responseCode === 0)
                         if (result.paid === true || result.responseCode === 0) {
@@ -484,16 +488,34 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
                             statusDot.classList.add('bg-green-500');
 
                             // Auto-redirect immediately - use redirect URL from response or construct it
-                            const redirectUrl = result.redirect || (window.location.origin + '/order/success/' + data.orderId);
+                            let redirectUrl = result.redirect;
+                            
+                            // If no redirect URL in response, construct it
+                            const orderId = data.orderId || window.currentOrderId;
+                            if (!redirectUrl && orderId) {
+                                redirectUrl = window.location.origin + '/order/success/' + orderId;
+                            } else if (!redirectUrl) {
+                                // Fallback: try to get order ID from URL or other source
+                                console.error('No order ID available for redirect');
+                                alert('Payment confirmed! Please wait for redirect...');
+                                // Try to reload page which should redirect to success
+                                setTimeout(() => window.location.reload(), 1000);
+                                return;
+                            }
+                            
                             // Force HTTPS
-                            const finalUrl = redirectUrl.replace(/^http:/, 'https:');
+                            redirectUrl = redirectUrl.replace(/^http:/, 'https:');
+                            
+                            console.log('Redirecting to:', redirectUrl);
                             
                             // Redirect immediately, no delay needed
-                            window.location.href = finalUrl;
+                            window.location.href = redirectUrl;
                         } else {
                             // Keep showing waiting status
                             statusText.textContent = 'Waiting for payment...';
                         }
+                    } else {
+                        console.warn('Payment status check failed:', res.status, res.statusText);
                     }
                 } catch (err) {
                     console.warn('Payment check error:', err);
