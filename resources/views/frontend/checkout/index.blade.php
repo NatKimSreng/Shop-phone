@@ -370,8 +370,15 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
     btn.textContent = 'Processing...';
 
     try {
-        // Use absolute URL to ensure HTTPS
-        const checkoutUrl = "{{ url(route('checkout.store')) }}";
+        // Force HTTPS - use current page protocol (which is HTTPS)
+        let checkoutUrl = "{{ route('checkout.store') }}";
+        // If it's a relative URL, make it absolute with current protocol
+        if (checkoutUrl.startsWith('/')) {
+            checkoutUrl = window.location.origin + checkoutUrl;
+        }
+        // Force HTTPS if somehow HTTP
+        checkoutUrl = checkoutUrl.replace(/^http:/, 'https:');
+        
         const response = await fetch(checkoutUrl, {
             method: 'POST',
             body: formData,
@@ -444,8 +451,15 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
             // Check payment status every second (like the example)
             if (!alreadyPaid && secondsLeft > 0) {
                 try {
-                    // Use absolute URL to ensure HTTPS
-                    const paymentStatusUrl = "{{ url(route('payment.status', ['order' => 'PLACEHOLDER'])) }}".replace('PLACEHOLDER', data.orderId);
+                    // Force HTTPS - use current page protocol
+                    let paymentStatusUrl = "{{ route('payment.status', ['order' => 'PLACEHOLDER']) }}".replace('PLACEHOLDER', data.orderId);
+                    // If it's a relative URL, make it absolute with current protocol
+                    if (paymentStatusUrl.startsWith('/')) {
+                        paymentStatusUrl = window.location.origin + paymentStatusUrl;
+                    }
+                    // Force HTTPS if somehow HTTP
+                    paymentStatusUrl = paymentStatusUrl.replace(/^http:/, 'https:');
+                    
                     const res = await fetch(`${paymentStatusUrl}?t=${Date.now()}`, {
                         cache: 'no-store',
                         headers: {

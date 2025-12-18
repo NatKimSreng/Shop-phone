@@ -56,6 +56,18 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Force HTTPS
+    |--------------------------------------------------------------------------
+    |
+    | When your proxy is load balancing or terminating SSL, you may need to
+    | force HTTPS. Set this to true if you're behind a proxy that handles SSL.
+    |
+    */
+    
+    'force_https' => env('FORCE_HTTPS', false),
 
     /*
     |--------------------------------------------------------------------------
