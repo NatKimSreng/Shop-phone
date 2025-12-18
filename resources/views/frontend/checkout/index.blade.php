@@ -105,12 +105,12 @@
 
                         <div>
                             <label for="address" class="block text-sm font-bold mb-2">Location (Delivery Address) <span class="text-red-500">*</span></label>
-                            
+
                             <!-- Address field that will be populated by map selection -->
                             <textarea name="address" id="address" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-black @error('address') border-red-500 @enderror" placeholder="Select location on map or enter address manually" required aria-required="true">{{ old('address') }}</textarea>
-                            
-                            @error('address') 
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p> 
+
+                            @error('address')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
                             <p class="mt-1 text-xs text-gray-500">Please select your delivery location on the map below or enter it manually</p>
                         </div>
@@ -214,7 +214,7 @@
 // Listen for location confirmation from map picker
 document.addEventListener('DOMContentLoaded', function() {
     const addressField = document.getElementById('address');
-    
+
     // Function to populate address field from map selection
     // This function can be called by the map script when location is selected
     window.setSelectedAddress = function(addressText) {
@@ -222,29 +222,29 @@ document.addEventListener('DOMContentLoaded', function() {
             addressField.value = addressText;
             addressField.classList.remove('border-red-500');
             addressField.classList.add('border-green-500');
-            
+
             // Show visual confirmation
             setTimeout(() => {
                 addressField.classList.remove('border-green-500');
             }, 2000);
         }
     };
-    
+
     // Listen for "Confirm This Location" button click
     // Look for button containing "Confirm" text
     document.addEventListener('click', function(e) {
         const target = e.target;
         const targetText = target.textContent || '';
-        
+
         if (targetText.includes('Confirm') || targetText.includes('confirm')) {
             // Find the location text - look for the address text in nearby elements
             let locationText = null;
-            
+
             // Method 1: Look for element with id containing "location"
-            locationText = document.getElementById('locationText') || 
+            locationText = document.getElementById('locationText') ||
                           document.querySelector('[id*="location"]') ||
                           document.querySelector('[class*="location"]');
-            
+
             // Method 2: If not found, look in parent container
             if (!locationText || !locationText.textContent || locationText.textContent.length < 20) {
                 const parent = target.closest('div');
@@ -254,8 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     for (let el of allTexts) {
                         const text = el.textContent.trim();
                         // Check if it looks like an address (has commas, not just labels)
-                        if (text && text.includes(',') && text.length > 20 && 
-                            !text.includes('Selected Location:') && 
+                        if (text && text.includes(',') && text.length > 20 &&
+                            !text.includes('Selected Location:') &&
                             !text.includes('Coordinates:') &&
                             !text.includes('Use My Location') &&
                             !text.includes('Center on')) {
@@ -265,20 +265,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
-            
+
             // Populate address field
             if (locationText && locationText.textContent) {
                 let addressText = locationText.textContent.trim();
-                
+
                 // Clean up the text (remove labels if present)
                 addressText = addressText.replace(/^Selected Location:\s*/i, '');
                 addressText = addressText.replace(/\s*Coordinates:.*$/i, '');
-                
+
                 if (addressText && addressText.length > 10) {
                     addressField.value = addressText;
                     addressField.classList.remove('border-red-500');
                     addressField.classList.add('border-green-500');
-                    
+
                     // Update button appearance
                     if (target.tagName === 'BUTTON' || target.closest('button')) {
                         const btn = target.tagName === 'BUTTON' ? target : target.closest('button');
@@ -286,18 +286,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         btn.textContent = '✓ Location Confirmed';
                         btn.disabled = true;
                     }
-                    
+
                     // Remove green border after a moment
                     setTimeout(() => {
                         addressField.classList.remove('border-green-500');
                     }, 2000);
-                    
+
                     console.log('Address populated:', addressText);
                 }
             }
         }
     });
-    
+
     // Monitor for changes to location display elements
     const observer = new MutationObserver(function(mutations) {
         const locationText = document.getElementById('locationText');
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
+
     // Observe the document for changes
     observer.observe(document.body, {
         childList: true,
@@ -321,17 +321,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('checkoutForm').addEventListener('submit', async function (e) {
     const paymentMethod = document.getElementById('payment_method').value;
-    
+
     // Validate required fields before submission
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const address = document.getElementById('address').value.trim();
-    
+
     if (!name || !email || !phone || !address) {
         e.preventDefault();
         alert('Please fill in all required fields (Name, Email, Phone, and Address).\n\nIf you selected a location on the map, please click "Confirm This Location" button.');
-        
+
         // Highlight address field if empty
         if (!address) {
             const addressField = document.getElementById('address');
@@ -340,7 +340,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
                 locationText.parentElement.classList.add('border-red-500');
             }
         }
-        
+
         return false;
     }
 
@@ -355,13 +355,13 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
 
     const form = document.getElementById('checkoutForm');
     const formData = new FormData(form);
-    
+
     // Double-check address is included in FormData
     if (!formData.get('address') || formData.get('address').trim() === '') {
         alert('Address is required. Please enter your delivery address.');
         return;
     }
-    
+
     const btn = document.getElementById('placeOrderBtn');
     const originalText = btn.textContent;
 
@@ -370,7 +370,9 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
     btn.textContent = 'Processing...';
 
     try {
-        const response = await fetch("{{ route('checkout.store') }}", {
+        // Use absolute URL to ensure HTTPS
+        const checkoutUrl = "{{ url(route('checkout.store')) }}";
+        const response = await fetch(checkoutUrl, {
             method: 'POST',
             body: formData,
             headers: {
@@ -442,7 +444,9 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
             // Check payment status every second (like the example)
             if (!alreadyPaid && secondsLeft > 0) {
                 try {
-                    const res = await fetch(`/payment/status/${data.orderId}?t=${Date.now()}`, {
+                    // Use absolute URL to ensure HTTPS
+                    const paymentStatusUrl = "{{ url(route('payment.status', ['order' => 'PLACEHOLDER'])) }}".replace('PLACEHOLDER', data.orderId);
+                    const res = await fetch(`${paymentStatusUrl}?t=${Date.now()}`, {
                         cache: 'no-store',
                         headers: {
                             'Accept': 'application/json',
