@@ -82,14 +82,31 @@ Then run the seeder manually after deployment.
 ## Quick Setup Steps
 
 1. **Deploy your app** (with migrations in build command)
-2. **Wait for deployment to complete**
-3. **Run seeder via CLI:**
+2. **Set required environment variables in Railway:**
+   - `APP_URL=https://your-app.railway.app` (replace with your actual Railway URL)
+   - `SESSION_SECURE_COOKIE=true`
+   - `SESSION_SAME_SITE=lax`
+   - `SESSION_DRIVER=database`
+3. **Wait for deployment to complete**
+4. **Run seeder via CLI:**
    ```bash
    railway run php artisan db:seed --class=AdminUserSeeder
    ```
-4. **Login at:** `https://your-app.railway.app/admin/login`
+5. **Clear config cache:**
+   ```bash
+   railway run php artisan config:clear
+   ```
+6. **Login at:** `https://your-app.railway.app/admin/login`
    - Email: `admin@example.com` (or your ADMIN_EMAIL)
    - Password: `admin123` (or your ADMIN_PASSWORD)
+
+## Fix 419 PAGE EXPIRED Error
+
+If you get a 419 error when logging in, see `FIX_419_ERROR.md` for detailed instructions. Quick fix:
+
+1. Set `APP_URL` to your exact Railway domain (with https://)
+2. Set `SESSION_SECURE_COOKIE=true`
+3. Clear config cache and restart service
 
 ## Troubleshooting
 
