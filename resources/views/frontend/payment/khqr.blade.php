@@ -70,14 +70,22 @@ setInterval(() => {
 
 // Single, clean checkPayment function
 function checkPayment() {
-    fetch("{{ route('payment.check', $order->id) }}")
-        .then(r => r.json())
+    fetch("{{ route('payment.status', $order->id) }}")
+        .then(r => {
+            if (!r.ok) {
+                throw new Error(`HTTP error! status: ${r.status}`);
+            }
+            return r.json();
+        })
         .then(res => {
             if (res.paid === true) {
                 location.reload();
             }
         })
-        .catch(() => {}); // ignore network hiccups
+        .catch(error => {
+            console.error('Payment check failed:', error);
+            // Silently fail - don't show error to user to avoid spam
+        });
 }
 
 // Manual button
