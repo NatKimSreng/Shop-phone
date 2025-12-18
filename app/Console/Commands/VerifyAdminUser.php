@@ -44,16 +44,20 @@ class VerifyAdminUser extends Command
         $this->line("   Is Admin: " . ($user->isAdmin() ? 'Yes' : 'No'));
         $this->line("   Password Hash: " . substr($user->password, 0, 20) . '...');
         
-        // Test password verification
-        $testPassword = $this->ask('Enter password to test (or press Enter to skip)', '');
-        
-        if ($testPassword) {
-            if (Hash::check($testPassword, $user->password)) {
-                $this->info("✅ Password verification: SUCCESS");
-            } else {
-                $this->error("❌ Password verification: FAILED");
-                $this->warn("The password you entered does not match the stored hash.");
+        // Test password verification (non-interactive for Railway)
+        if (!$this->option('no-interaction')) {
+            $testPassword = $this->ask('Enter password to test (or press Enter to skip)', '');
+            
+            if ($testPassword) {
+                if (Hash::check($testPassword, $user->password)) {
+                    $this->info("✅ Password verification: SUCCESS");
+                } else {
+                    $this->error("❌ Password verification: FAILED");
+                    $this->warn("The password you entered does not match the stored hash.");
+                }
             }
+        } else {
+            $this->info("💡 To test password, run without --no-interaction flag");
         }
         
         // Check if role is set correctly
