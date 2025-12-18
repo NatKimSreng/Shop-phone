@@ -110,13 +110,43 @@ Then run the seeder manually after deployment.
 - **Solution:** Check Railway logs for errors. Verify environment variables are set correctly.
 
 ### Can't Login After Creating Admin
-- **Solution:** Verify the user was created:
+- **Solution 1:** Verify the user was created using tinker:
   ```bash
   railway run php artisan tinker
   ```
   Then:
   ```php
-  User::where('email', 'admin@example.com')->first();
+  $user = App\Models\User::where('email', 'kimsreng@gmail.com')->first();
+  // Check user details
+  $user->id;
+  $user->name;
+  $user->email;
+  $user->role; // Should be 'admin'
+  $user->isAdmin(); // Should return true
+  
+  // Test password (replace 'your-password' with actual password)
+  Hash::check('your-password', $user->password); // Should return true
+  
+  // Fix role if needed
+  $user->role = 'admin';
+  $user->save();
   ```
-  Check that `role = 'admin'`
+
+- **Solution 2:** Use the verify command (after clearing cache):
+  ```bash
+  railway run php artisan config:clear
+  railway run php artisan admin:verify kimsreng@gmail.com
+  ```
+
+- **Solution 3:** Reset password if login fails:
+  ```bash
+  railway run php artisan tinker
+  ```
+  Then:
+  ```php
+  $user = App\Models\User::where('email', 'kimsreng@gmail.com')->first();
+  $user->password = Hash::make('newpassword123');
+  $user->role = 'admin';
+  $user->save();
+  ```
 
