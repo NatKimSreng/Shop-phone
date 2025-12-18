@@ -10,6 +10,19 @@ The `backup.sql` file is now in your repository. You can:
 
 ## Step 2: Import to Railway
 
+### For SQLite Database:
+
+If you're using SQLite in Railway (requires a Volume for persistence):
+
+```bash
+# Import directly to SQLite
+railway run sqlite3 database/database.sqlite < backup.sql
+
+# Or if you have the original database.sqlite file, copy it directly
+```
+
+**Note:** Railway's free tier doesn't support SQLite well without persistent volumes. See `IMPORT_TO_SQLITE.md` for detailed SQLite setup.
+
 ### For MySQL Database:
 
 ```bash
