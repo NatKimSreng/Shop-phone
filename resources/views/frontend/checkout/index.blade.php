@@ -433,12 +433,52 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
         const amountKHR = data.amount || (data.amountUSD * 4100);
         document.getElementById('modalAmount').textContent = amountKHR.toLocaleString();
 
+        // Store orderId globally for payment status checks
+        window.currentOrderId = data.orderId;
+        console.log('Order created, ID:', data.orderId);
+
         let secondsLeft = 15 * 60; // 15 minutes
         const timerEl = document.getElementById('timer');
         const statusText = document.getElementById('statusText');
         const statusDot = document.getElementById('statusDot');
 
         let alreadyPaid = false;
+
+        // Check payment status immediately when modal opens
+        async function checkPaymentImmediately() {
+            try {
+                let paymentStatusUrl = "{{ route('payment.status', ['order' => 'PLACEHOLDER']) }}".replace('PLACEHOLDER', data.orderId);
+                if (paymentStatusUrl.startsWith('/')) {
+                    paymentStatusUrl = window.location.origin + paymentStatusUrl;
+                }
+                paymentStatusUrl = paymentStatusUrl.replace(/^http:/, 'https:');
+                
+                const res = await fetch(`${paymentStatusUrl}?t=${Date.now()}`, {
+                    cache: 'no-store',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+                
+                if (res.ok) {
+                    const result = await res.json();
+                    console.log('Initial payment check:', result);
+                    if (result.paid === true || result.responseCode === 0) {
+                        const redirectUrl = result.redirect || (window.location.origin + '/order/success/' + data.orderId);
+                        console.log('Payment already confirmed, redirecting to:', redirectUrl);
+                        window.location.href = redirectUrl.replace(/^http:/, 'https:');
+                        return true;
+                    }
+                }
+            } catch (err) {
+                console.warn('Initial payment check failed:', err);
+            }
+            return false;
+        }
+        
+        // Check immediately when modal opens
+        checkPaymentImmediately();
 
         // Combined timer and payment check (like the example)
         const timer = setInterval(async () => {
