@@ -131,6 +131,34 @@ Route::post('/payment/manual-complete/{order}', [CheckoutController::class, 'man
      ->name('payment.manual-complete');
 Route::post('/telegram/webhook', [\App\Http\Controllers\TelegramBotController::class, 'handleWebhook']);
 
+// Test route for debugging login issues (remove in production)
+Route::get('/test-login-setup', function() {
+    $email = request('email', 'kimsreng@gmail.com');
+    $user = \App\Models\User::where('email', $email)->first();
+    
+    if (!$user) {
+        return response()->json([
+            'error' => 'User not found',
+            'email' => $email,
+            'suggestion' => 'Run: php artisan admin:create ' . $email . ' "password" "Admin"'
+        ], 404);
+    }
+    
+    return response()->json([
+        'user_exists' => true,
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'role' => $user->role ?? 'not set',
+        'is_admin' => $user->isAdmin(),
+        'has_password' => !empty($user->password),
+        'app_url' => config('app.url'),
+        'session_driver' => config('session.driver'),
+        'session_secure' => config('session.secure'),
+        'session_same_site' => config('session.same_site'),
+    ]);
+})->name('test.login.setup');
+
 // Test Telegram notification (for debugging)
 Route::get('/telegram/test', function() {
     $botToken = config('services.telegram.bot_token');
