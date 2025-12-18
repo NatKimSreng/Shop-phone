@@ -28,7 +28,7 @@ class AuthController extends Controller
         if (auth()->attempt($credentials, $remember)) {
             // regenerate session
             $req->session()->regenerate();
-            return redirect('/products')->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+            return redirect('/')->with('success', 'Welcome back, ' . Auth::user()->name . '!');
         }
 
         return back()->withErrors([

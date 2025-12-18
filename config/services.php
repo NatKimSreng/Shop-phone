@@ -13,6 +13,13 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'bakong' => [
+        'token' => env('BAKONG_API_TOKEN'),
+        'test_mode' => env('BAKONG_TEST_MODE', true),
+        // WARNING: simulate_success should ONLY be true for testing/development
+        // NEVER set to true in production - it will mark all orders as paid without verification!
+        'simulate_success' => env('BAKONG_SIMULATE_SUCCESS', false),
+    ],
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
@@ -21,6 +28,8 @@ return [
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
+
+
 
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
@@ -33,6 +42,11 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    ],
+
+    'telegram' => [
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'chat_id' => env('TELEGRAM_CHAT_ID'),
     ],
 
 ];

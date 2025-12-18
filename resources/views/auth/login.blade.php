@@ -98,7 +98,7 @@
 
     <div class="container">
         <div class="form-card">
-            <form class="form-group" action="{{ route('login.store') }}" method="POST">
+            <form class="form-group" action="{{ route('admin.login') }}" method="POST">
                 <legend style="font-size:18px;margin:0 0 8px 0; text-align: center;">Login</legend>
                 @csrf
                 @if ($errors->any())

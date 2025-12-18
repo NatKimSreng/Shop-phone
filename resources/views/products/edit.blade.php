@@ -10,7 +10,7 @@
                         <h2 class="h3 mb-1 font-weight-bold text-dark">Edit Product</h2>
                         <p class="text-muted small mb-0">Update product information</p>
                     </div>
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-arrow-left me-1"></i> Back
                     </a>
                 </div>
@@ -18,7 +18,7 @@
                 <!-- Form Card -->
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
-                        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+                        <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
                             class="needs-validation" novalidate>
                             @csrf
                             @method('PUT')
@@ -97,7 +97,7 @@
                                 </label>
                                 @if ($product->image && file_exists(public_path($product->image)))
                                     <div class="mb-3 p-3 bg-light rounded border">
-                                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" 
+                                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
                                             class="img-thumbnail mb-2 current-product-image"
                                             style="width: 150px; height: 150px; object-fit: cover; border: 2px solid #dee2e6;">
                                         <small class="text-muted d-block">
@@ -122,7 +122,7 @@
                             <!-- Stock -->
                             <div class="mb-4">
                                 <div class="form-check form-switch">
-                                    <input type="checkbox" name="stock" id="stock" class="form-check-input" 
+                                    <input type="checkbox" name="stock" id="stock" class="form-check-input"
                                         value="1" role="switch" {{ old('stock', $product->stock) ? 'checked' : '' }}>
                                     <label for="stock" class="form-check-label fw-semibold text-dark ms-2">
                                         <i class="fas fa-boxes me-1 text-muted"></i>In Stock
@@ -132,7 +132,7 @@
 
                             <!-- Buttons -->
                             <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-1"></i> Cancel
                                 </a>
                                 <button type="submit" class="btn btn-primary px-4">

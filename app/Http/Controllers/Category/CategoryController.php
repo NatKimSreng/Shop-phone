@@ -39,15 +39,33 @@ class CategoryController extends Controller
 
         Category::create($validated);
 
-        return redirect()->route('categories.index')->with('success', 'Category created successfully!');
+        return redirect()->route('admin.categories.index')->with('success', 'Category created successfully!');
     }
 
     /**
      * Display the specified category.
+     * This handles both admin and frontend views based on route.
      */
-    public function show(Category $category)
+    public function show($slug)
     {
-        return view('categories.show', compact('category'));
+        // Try to find by ID first, then by category_name (for friendly URLs)
+        $category = Category::where('id', $slug)
+            ->orWhere('category_name', str_replace('-', ' ', $slug))
+            ->firstOrFail();
+
+        // Check if this is an admin route (would have admin prefix in URL)
+        if (request()->is('admin/*')) {
+            return view('categories.show', compact('category'));
+        }
+
+        // Frontend category page - show products
+        $products = Product::where('category_id', $category->id)
+            ->where('stock', 1)
+            ->with('category')
+            ->latest()
+            ->paginate(12);
+
+        return view('category.show', compact('category', 'products'));
     }
 
     public function edit(Category $category)
@@ -64,12 +82,12 @@ class CategoryController extends Controller
 
         $category->update($validated);
 
-        return redirect()->route('categories.index')->with('success', 'Category updated!');
+        return redirect()->route('admin.categories.index')->with('success', 'Category updated!');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route('categories.index')->with('success', 'Category deleted!');
+        return redirect()->route('admin.categories.index')->with('success', 'Category deleted!');
     }
 }

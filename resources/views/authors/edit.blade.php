@@ -10,14 +10,14 @@
                     <h2 class="h3 mb-1 font-weight-bold text-dark">Edit Author</h2>
                     <p class="text-muted small mb-0">Update author information</p>
                 </div>
-                <a href="{{ route('authors.index') }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ route('admin.authors.index') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-arrow-left me-1"></i> Back
                 </a>
             </div>
 
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <form action="{{ route('authors.update', $author->id) }}" method="POST" class="needs-validation" novalidate>
+                    <form action="{{ route('admin.authors.update', $author->id) }}" method="POST" class="needs-validation" novalidate>
                         @csrf
                         @method('PUT')
 
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                            <a href="{{ route('authors.index') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('admin.authors.index') }}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-1"></i> Cancel
                             </a>
                             <button type="submit" class="btn btn-primary px-4">

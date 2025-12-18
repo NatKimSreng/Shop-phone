@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'bakong_account_id' => env('BAKONG_ACCOUNT_ID'),
+    'merchant_name' => env('MERCHANT_NAME'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -10,7 +10,7 @@
             <h2 class="h3 mb-1 font-weight-bold text-dark">Authors</h2>
             <p class="text-muted small mb-0">List of all authors</p>
         </div>
-        <a href="{{ route('authors.create') }}" class="btn btn-primary btn-sm">
+        <a href="{{ route('admin.authors.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus me-1"></i> Add Author
         </a>
     </div>
@@ -40,15 +40,15 @@
                             <td> <a target="_blank" href="{{ $author->website }}">{{ $author->website }}</a></td>
                             <td>{{ $author->phone }}</td>
                             <td>
-                                <a href="{{ route('authors.show', $author->id) }}" class="btn btn-outline-info btn-sm">
+                                <a href="{{ route('admin.authors.show', $author->id) }}" class="btn btn-outline-info btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                <a href="{{ route('authors.edit', $author->id) }}" class="btn btn-outline-warning btn-sm">
+                                <a href="{{ route('admin.authors.edit', $author->id) }}" class="btn btn-outline-warning btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <form action="{{ route('authors.destroy', $author->id) }}" method="POST"
+                                <form action="{{ route('admin.authors.destroy', $author->id) }}" method="POST"
                                       class="d-inline">
                                     @csrf
                                     @method('DELETE')

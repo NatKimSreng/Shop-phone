@@ -6,7 +6,7 @@
             <h2>Edit Category</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('categories.update', $category) }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('admin.categories.update', $category) }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 @method('PUT')
 
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <a href="{{ route('categories.index') }}" class="btn btn-secondary mr-2">Cancel</a>
+                    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary mr-2">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </form>

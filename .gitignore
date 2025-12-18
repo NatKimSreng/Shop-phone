@@ -22,3 +22,12 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Database files
+*.sqlite
+*.sqlite3
+database/*.sqlite
+database/*.sqlite3
+
+# Deployment configs (optional - you can remove if you want to commit these)
+# vercel.json

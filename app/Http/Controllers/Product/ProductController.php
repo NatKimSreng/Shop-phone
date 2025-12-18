@@ -147,7 +147,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
     }
 
     public function destroy(Product $product)

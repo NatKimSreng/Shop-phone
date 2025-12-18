@@ -173,7 +173,7 @@
 
                 <div style="display: flex; justify-content: center; gap: 10px; ">
                     <button type="submit" class="btn">Register</button>
-                    <a href="{{ route('auth.login') }}" class="btn btn-secondary">Sign in</a>
+                    <a href="{{ route('admin.login') }}" class="btn btn-secondary">Sign in</a>
                 </div>
             </form>
         </div>

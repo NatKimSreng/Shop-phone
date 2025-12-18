@@ -3,13 +3,19 @@
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                    <i class="fas fa-bars"></i>
+                </a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="../../index3.html" class="nav-link">Home</a>
+                <a href="{{ route('home') }}" class="nav-link">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                </a>
             </li>
         </ul>
 
@@ -21,7 +27,7 @@
                     <i class="fas fa-search"></i>
                 </a>
                 <div class="navbar-search-block">
-                    <form class="form-inline" method="GET" action="{{ route('products.index') }}">
+                    <form class="form-inline" method="GET" action="{{ route('admin.products.index') }}">
                         <div class="input-group input-group-sm">
                             <input class="form-control form-control-navbar" type="search" name="search"
                                 placeholder="Search products..." aria-label="Search" value="{{ request('search') }}">
@@ -39,8 +45,31 @@
             </li>
 
 
-            <!-- Messages Dropdown Menu -->
+            <!-- User Dropdown -->
             <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="d-none d-md-inline ms-1">{{ auth()->user()->name ?? 'Admin' }}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-user me-2"></i> Profile
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-cog me-2"></i> Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                        </button>
+                    </form>
+                </div>
+            </li>
+
+            <!-- Messages Dropdown Menu (Hidden for now) -->
+            <li class="nav-item dropdown d-none">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-comments"></i>
                     <span class="badge badge-danger navbar-badge">3</span>
@@ -100,8 +129,8 @@
                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
             </li>
-            <!-- Notifications Dropdown Menu -->
-            <li class="nav-item dropdown">
+            <!-- Notifications Dropdown Menu (Hidden for now) -->
+            <li class="nav-item dropdown d-none">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
                     <span class="badge badge-warning navbar-badge">15</span>

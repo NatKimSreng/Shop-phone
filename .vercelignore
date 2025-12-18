@@ -1,0 +1,12 @@
+# Vercel doesn't support Laravel, but if you want to ignore files:
+/vendor
+/node_modules
+/storage
+/bootstrap/cache
+/.git
+/.env
+/phpunit.xml
+/tests
+/database/*.sqlite
+*.log
+

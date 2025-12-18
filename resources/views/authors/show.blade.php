@@ -11,7 +11,7 @@
                     <h2 class="h3 mb-1 font-weight-bold text-dark">Author Detail</h2>
                     <p class="text-muted small mb-0">Detailed information</p>
                 </div>
-                <a href="{{ route('authors.index') }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ route('admin.authors.index') }}" class="btn btn-outline-secondary btn-sm">
                     <i class="fas fa-arrow-left me-1"></i> Back
                 </a>
             </div>

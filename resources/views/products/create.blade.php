@@ -11,7 +11,7 @@
                         <h2 class="h3 mb-1 font-weight-bold text-dark">Create Product</h2>
                         <p class="text-muted small mb-0">Add a new product to your inventory</p>
                     </div>
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-arrow-left me-1"></i> Back
                     </a>
                 </div>
@@ -19,7 +19,7 @@
                 <!-- Form Card -->
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
-                        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <!-- Product Name -->
@@ -117,7 +117,7 @@
 
                             <!-- Buttons -->
                             <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
                                     <i class="fas fa-times me-1"></i> Cancel
                                 </a>
                                 <button type="submit" class="btn btn-primary px-4">

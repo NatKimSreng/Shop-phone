@@ -39,7 +39,7 @@ class AuthorController extends Controller
 
         Author::create($validated);
 
-        return redirect()->route('authors.index')
+        return redirect()->route('admin.authors.index')
             ->with('success', 'Author created successfully!');
     }
 
@@ -64,7 +64,7 @@ class AuthorController extends Controller
 
         $author->update($validated);
 
-        return redirect()->route('authors.index')
+        return redirect()->route('admin.authors.index')
             ->with('success', 'Author updated successfully!');
     }
 
@@ -73,7 +73,7 @@ class AuthorController extends Controller
     {
         Author::findOrFail($id)->delete();
 
-        return redirect()->route('authors.index')
+        return redirect()->route('admin.authors.index')
             ->with('success', 'Author deleted successfully!');
     }
 }

@@ -6,8 +6,8 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h2>{{ $category->category_name }}</h2>
                 <div>
-                    <a href="{{ route('categories.index') }}" class="btn btn-secondary btn-sm">Back to List</a>
-                    <a href="{{ route('categories.edit', $category) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ route('admin.categories.index') }}" class="btn btn-secondary btn-sm">Back to List</a>
+                    <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-warning btn-sm">Edit</a>
                 </div>
             </div>
             <div class="card-body">

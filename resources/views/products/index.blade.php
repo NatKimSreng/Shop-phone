@@ -8,7 +8,7 @@
                 <h1 class="h3 mb-1 font-weight-bold">Products</h1>
                 <p class="text-muted small mb-0">Manage your product inventory</p>
             </div>
-            <a href="{{ route('products.create') }}" class="btn btn-dark btn-sm px-4">
+            <a href="{{ route('admin.products.create') }}" class="btn btn-dark btn-sm px-4">
                 <i class="fas fa-plus mr-1"></i> Add Product
             </a>
         </div>
@@ -16,7 +16,7 @@
         <!-- Filters Card -->
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-body p-4">
-                <form method="GET" action="{{ route('products.index') }}">
+                <form method="GET" action="{{ route('admin.products.index') }}">
                     <div class="row g-3 align-items-end">
                         <div class="col-md-2">
                             <label class="form-label small text-muted mb-2">Category</label>
@@ -58,7 +58,7 @@
                                 <i class="fas fa-search mr-1"></i> Filter
                             </button>
                             @if (request()->hasAny(['category_id', 'stock', 'search', 'price']))
-                                <a href="{{ route('products.index') }}" class="btn btn-outline-secondary btn-sm w-100 mt-2">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-sm w-100 mt-2">
                                     <i class="fas fa-redo mr-1"></i> Reset
                                 </a>
                             @endif
@@ -99,7 +99,7 @@
                                                     </div>
                                                 @endif
                                                 <div class="ml-3">
-                                                    <a href="{{ route('products.show', $product) }}"
+                                                    <a href="{{ route('admin.products.show', $product) }}"
                                                         class="text-dark font-weight-500 text-decoration-none product-name-link"
                                                         style="transition: color 0.2s ease;">
                                                         {{ $product->name }}
@@ -122,12 +122,12 @@
                                         </td>
                                         <td class="px-4 py-3 text-center">
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="{{ route('products.edit', $product) }}"
+                                                <a href="{{ route('admin.products.edit', $product) }}"
                                                     class="btn btn-outline-secondary border action-btn" title="Edit"
                                                     style="transition: all 0.2s ease;">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form method="POST" action="{{ route('products.destroy', $product) }}"
+                                                <form method="POST" action="{{ route('admin.products.destroy', $product) }}"
                                                     class="d-inline" onsubmit="return confirm('Delete this product?')">
                                                     @csrf
                                                     @method('DELETE')
@@ -155,7 +155,7 @@
                                         <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
                                         <p class="text-warning mb-0">Products data not loaded (controller issue). Refresh
                                             or check logs.</p>
-                                        <a href="{{ route('products.index') }}"
+                                        <a href="{{ route('admin.products.index') }}"
                                             class="btn btn-primary btn-sm mt-3">Reload</a>
                                     </td>
                                 </tr>

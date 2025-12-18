@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: laravel-product-management
+    env: php
+    region: oregon
+    plan: free
+    buildCommand: composer install --no-dev && php artisan key:generate --force && php artisan migrate --force && npm install && npm run build
+    startCommand: php artisan serve --host=0.0.0.0 --port=$PORT
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+
+databases:
+  - name: laravel-db
+    plan: free
+    databaseName: laravel
+    user: laravel
+

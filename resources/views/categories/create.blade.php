@@ -6,7 +6,7 @@
             <h2>Create Category</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('categories.store') }}" method="POST" class="needs-validation" novalidate>
+            <form action="{{ route('admin.categories.store') }}" method="POST" class="needs-validation" novalidate>
                 @csrf
                 <div class="mb-3">
                     <label for="category_name" class="form-label">Category Name</label>

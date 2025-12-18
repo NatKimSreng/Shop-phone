@@ -51,137 +51,64 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+
+                <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('admin.dashboard') }}"
+                       class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
+                        <p>Dashboard</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/products" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Product</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/categories" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Category</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/authors" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Author</p>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a href="../../index3.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v3</p>
-                            </a>
-                        </li> --}}
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="../widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Widgets
-                            <span class="right badge badge-danger">New</span>
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Layout Options
-                            <i class="fas fa-angle-left right"></i>
-                            <span class="badge badge-info right">6</span>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../layout/fixed-footer.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Fixed Footer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../layout/collapsed-sidebar.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Collapsed Sidebar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Charts
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../charts/uplot.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>uPlot</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tree"></i>
-                        <p>
-                            UI Elements
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../UI/general.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>General</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../UI/icons.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Icons</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
-                {{-- <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" class="nav-link"
-                            onclick="return confirm('Are you sure you want to log out?')"
-                            style="background:none; border:none; color:white; width:100%; text-align:left;">
-                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                            <p>Log Out</p>
-                        </button>
-
-                    </form>
-                </li> --}}
+                <!-- Products -->
                 <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                    <a href="{{ route('admin.products.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>Products</p>
+                    </a>
+                </li>
+
+                <!-- Categories -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.categories.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+
+                <!-- Authors -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.authors.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.authors.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p>Authors</p>
+                    </a>
+                </li>
+
+                <!-- Orders -->
+                <li class="nav-item">
+                    <a href="{{ route('admin.orders.index') }}"
+                       class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
+
+                <!-- Divider -->
+                <li class="nav-header">ACCOUNT</li>
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <form action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="nav-link btn btn-link text-white"
                             onclick="return confirm('Are you sure you want to log out?')"
-                            style="background:none; border:none; color:white; width:100%; text-align:left; margin-left: 8px;">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <p style="margin-left: 5px;">Log Out</p>
+                            style="background:none; border:none; color:white; width:100%; text-align:left; padding: 0.5rem 1rem;">
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>Log Out</p>
                         </button>
                     </form>
                 </li>

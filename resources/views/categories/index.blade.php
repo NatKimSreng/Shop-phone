@@ -1,18 +1,18 @@
 @extends('layouts.app')
 @section('title', 'Home - Category List')
 @section('content')
-    <form method="GET" action="{{ route('categories.index') }}" class="form-inline mb-3">
+    <form method="GET" action="{{ route('admin.categories.index') }}" class="form-inline mb-3">
         <label class="mr-2">Search</label>
         <input type="text" name="search" class="form-control mr-2" placeholder="Search name or description"
             value="{{ request('search') }}">
 
         <button class="btn btn-secondary btn-sm">Filter</button>
-        <a href="{{ route('categories.index') }}" class="btn btn-light ml-2">Reset</a>
+        <a href="{{ route('admin.categories.index') }}" class="btn btn-light ml-2">Reset</a>
     </form>
 
     <div class="table-responsive">
         <div class="d-flex align-items-center justify-content-end my-2">
-            <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm ml-2">Add New</a>
+            <a href="{{ route('admin.categories.create') }}" class="btn btn-success btn-sm ml-2">Add New</a>
         </div>
         <table class="table table-bordered table-sm">
             <thead>
@@ -24,10 +24,10 @@
             <tbody>
                 @forelse ($categories as $category)
                     <tr data-id="{{ $category->id }}">
-                        <td><a href="{{ route('categories.show', $category) }}">{{ $category->category_name }}</a></td>
+                        <td><a href="{{ route('admin.categories.show', $category) }}">{{ $category->category_name }}</a></td>
                         <td class="text-center w-auto">
-                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-primary btn-sm">Edit</a>
-                            <form method="POST" action="{{ route('categories.destroy', $category) }}" class="d-inline"
+                            <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="d-inline"
                                 onsubmit="return confirm('Delete this category?')">
                                 @csrf
                                 @method('DELETE')
