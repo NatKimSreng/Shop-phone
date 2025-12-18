@@ -378,7 +378,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
         }
         // Force HTTPS if somehow HTTP
         checkoutUrl = checkoutUrl.replace(/^http:/, 'https:');
-        
+
         const response = await fetch(checkoutUrl, {
             method: 'POST',
             body: formData,
@@ -459,7 +459,7 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
                     }
                     // Force HTTPS if somehow HTTP
                     paymentStatusUrl = paymentStatusUrl.replace(/^http:/, 'https:');
-                    
+
                     const res = await fetch(`${paymentStatusUrl}?t=${Date.now()}`, {
                         cache: 'no-store',
                         headers: {
@@ -483,10 +483,13 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
                             statusDot.classList.remove('bg-yellow-500', 'animate-pulse');
                             statusDot.classList.add('bg-green-500');
 
-                            // Auto-redirect immediately (like the example)
-                            setTimeout(() => {
-                                window.location.href = `/order/success/${data.orderId}`;
-                            }, 500);
+                            // Auto-redirect immediately - use redirect URL from response or construct it
+                            const redirectUrl = result.redirect || (window.location.origin + '/order/success/' + data.orderId);
+                            // Force HTTPS
+                            const finalUrl = redirectUrl.replace(/^http:/, 'https:');
+                            
+                            // Redirect immediately, no delay needed
+                            window.location.href = finalUrl;
                         } else {
                             // Keep showing waiting status
                             statusText.textContent = 'Waiting for payment...';

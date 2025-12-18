@@ -312,9 +312,13 @@ class CheckoutController extends Controller
         return response()->json(['paid' => $order->status === 'paid']);
     }
 
-    // If already paid, return immediately
+    // If already paid, return immediately with redirect info
     if ($order->status === 'paid') {
-        return response()->json(['paid' => true, 'responseCode' => 0]);
+        return response()->json([
+            'paid' => true, 
+            'responseCode' => 0,
+            'redirect' => route('order.success', $order->id)
+        ]);
     }
 
         // IMPORTANT: Only simulate in development/testing - NEVER in production
