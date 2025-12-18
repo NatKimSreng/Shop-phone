@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\HomeController;
