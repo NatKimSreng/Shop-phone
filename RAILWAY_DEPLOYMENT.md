@@ -44,21 +44,26 @@ railway run php artisan admin:create admin@example.com "your-password"
 railway run php artisan db:seed --class=AdminUserSeeder
 ```
 
-### Option 3: Use Railway Deploy Hooks (Advanced)
+### Option 3: Use Railway Pre-Deploy Command (In Dashboard)
 
-You can add a deploy hook in `railway.toml`:
+In Railway Dashboard → Your Service → Settings → Deploy:
 
-```toml
-[deploy]
-startCommand = "php artisan serve --host=0.0.0.0 --port=$PORT"
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
+1. **Pre-deploy command** (runs before container starts):
+   ```
+   php artisan db:seed --class=AdminUserSeeder
+   ```
+   ⚠️ **Important:** Do NOT use `railway run` - just use the command directly:
+   - ✅ Correct: `php artisan db:seed --class=AdminUserSeeder`
+   - ❌ Wrong: `railway run php artisan db:seed --class=AdminUserSeeder`
 
-[deploy.hooks]
-postDeploy = "php artisan db:seed --class=AdminUserSeeder"
-```
+2. **Start command:**
+   ```
+   php artisan serve --host=0.0.0.0 --port=$PORT
+   ```
 
-However, this will run on EVERY deployment, which might not be desired.
+**Note:** Pre-deploy commands run in the container environment, so you have direct access to `php artisan`. The `railway` CLI is only available when running commands from your local machine.
+
+**Warning:** Pre-deploy runs on EVERY deployment. If you only want to create the admin user once, use Option 1 (manual) instead.
 
 ## Current Build Command Issue
 
@@ -87,6 +92,13 @@ Then run the seeder manually after deployment.
    - Password: `admin123` (or your ADMIN_PASSWORD)
 
 ## Troubleshooting
+
+### "railway: command not found" in Pre-Deploy Command
+- **Problem:** You're using `railway run` in the pre-deploy command
+- **Solution:** Remove `railway run` - pre-deploy commands run directly in the container
+  - ✅ Use: `php artisan db:seed --class=AdminUserSeeder`
+  - ❌ Don't use: `railway run php artisan db:seed --class=AdminUserSeeder`
+- **Why:** The `railway` CLI is only available on your local machine, not inside Railway containers
 
 ### Build Fails with Seeder
 - **Solution:** Remove seeder from build command, run it manually after deployment
